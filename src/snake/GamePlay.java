@@ -6,8 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.URL;
+import java.util.Objects;
 
-//todo fix not loading images!
 public class GamePlay extends JPanel implements ActionListener, KeyListener {
     private int[] snakeXLength = new int[750];
     private int[] snakeYLength = new int[750];
@@ -56,7 +57,7 @@ public class GamePlay extends JPanel implements ActionListener, KeyListener {
         }
 
         //Display title
-        titleImage = new ImageIcon("title.png");
+        titleImage = createImageIcon("title.png");
         titleImage.paintIcon(this, graphics, 25, 5);
 
         //Display gameplay border
@@ -69,29 +70,29 @@ public class GamePlay extends JPanel implements ActionListener, KeyListener {
 
 
         // initial position of snake head
-        headRight = new ImageIcon("headRight.png");
+        headRight = createImageIcon("headRight.png");
         headRight.paintIcon(this, graphics, snakeXLength[0], snakeYLength[0]);
 
         for (int i = 0; i < lengthOfTheSnake; i++) {
             if (i == 0 && right) {
-                headRight = new ImageIcon("headRight.png");
+                headRight = createImageIcon("headRight.png");
                 headRight.paintIcon(this, graphics, snakeXLength[i], snakeYLength[i]);
             }
             if (i == 0 && left) {
-                headLeft = new ImageIcon("headLeft.png");
+                headLeft = createImageIcon("headLeft.png");
                 headLeft.paintIcon(this, graphics, snakeXLength[i], snakeYLength[i]);
             }
             if (i == 0 && up) {
-                headUp = new ImageIcon("headUp.png");
+                headUp = createImageIcon("headUp.png");
                 headUp.paintIcon(this, graphics, snakeXLength[i], snakeYLength[i]);
             }
             if (i == 0 && down) {
-                headDown = new ImageIcon("headDown.png");
+                headDown = createImageIcon("headDown.png");
                 headDown.paintIcon(this, graphics, snakeXLength[i], snakeYLength[i]);
             }
 
             if (i != 0) {
-                tail = new ImageIcon("tail.png");
+                tail = createImageIcon("tail.png");
                 tail.paintIcon(this, graphics, snakeXLength[i], snakeYLength[i]);
             }
         }
@@ -117,5 +118,14 @@ public class GamePlay extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    private ImageIcon createImageIcon(String path) {
+        String picturesLocation = "pictures/";
+        try {
+            return new ImageIcon(new URL(Objects.requireNonNull(getClass().getResource(picturesLocation + path)).toString()));
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
